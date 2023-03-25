@@ -90,20 +90,27 @@ const CustomerPage = () => {
         }
     };
 
-    const handleShare = () => {
+    const handleShare = async () => {
         if (!navigator.share) {
             alert('Web Share API is not supported on your browser');
             return;
         }
 
-        navigator.share({
-            title: 'My QR Code',
-            text: 'Check out my QR code!',
-            url: qrImageUrl
-        })
-            .then(() => console.log('Shared successfully'))
-            .catch((error) => console.log('Error sharing:', error));
+        const canvas = document.querySelector('canvas'); // get the canvas element containing the QR code
+        const dataUri = canvas.toDataURL(); // convert the QR code image to a data URI
+
+        try {
+            await navigator.share({
+                title: 'My QR Code',
+                text: 'Check out my QR code!',
+                files: [{type: 'image/png', dataUri}]
+            });
+            console.log('Shared successfully');
+        } catch (error) {
+            console.log('Error sharing:', error);
+        }
     };
+
 
     const handleChange = (event, field) => {
         setEditableData({ ...editableData, [field]: event.target.value });
