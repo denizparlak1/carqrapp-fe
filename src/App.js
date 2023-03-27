@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import UserPage from './page/UserPage';
 import LoginPage from './page/LoginPage';
 import AdminPage from "./page/AdminPage";
@@ -9,7 +9,7 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-
+                <Route path="/" element={<Navigate to="/login" />} />
                 <Route path="/user/:userId" element={<UserPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/customer" element={<ProtectedRoute component={CustomerPage} />} />

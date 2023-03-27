@@ -10,9 +10,11 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import MessageIcon from '@mui/icons-material/Message';
 import PhoneIcon from '@mui/icons-material/Phone';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import { styled } from '@mui/system';
+import Telegram from '@mui/icons-material/Telegram';
+
+
 
 const theme = createTheme({
     palette: {
@@ -41,9 +43,14 @@ const UserPage = () => {
     }, [userId]);
 
 
+    const openTelegram = (username) => {
+        const url = `https://t.me/${username}`;
+        window.open(url, '_blank');
+    }
+
 
     const openWhatsApp = (phone) => {
-        const message = encodeURIComponent("Hello, I saw your QR code.");
+        const message = encodeURIComponent("Merhaba QR Kod üzerinden size ulaşıyorum.");
         window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
     };
 
@@ -79,12 +86,16 @@ const UserPage = () => {
                     </Avatar>
                 )}
 
+
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: theme.spacing(1) }}>
                     <CarPlateWrapper>
                         <DriveEtaIcon sx={{ marginRight: 1 }} />
-                        🇹🇷 {userData.carPlate}
+                        🇹🇷 {userData.plate}
                     </CarPlateWrapper>
                 </Box>
+
+
+
 
                 <Typography variant="h5" gutterBottom>
                     {userData.email}
@@ -99,19 +110,34 @@ const UserPage = () => {
                 </CardContent>
 
 
-                <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: theme.spacing(1) ,width: '18%'}}>
-                    <Paper sx={{ display: 'flex',width: '100%' ,alignItems: 'center', backgroundColor: '#53bacc', padding: theme.spacing(1), borderRadius: '5px', fontSize: '20px','&:hover': { backgroundColor: '#f4fcf4' } }}>
-                        <PhoneIcon sx={{ marginRight: 1 }} />
-                        <Typography variant="body1" onClick={() => callPhone(userData.phone)} style={{ cursor: 'pointer' }}>
-                           TELEFON İLE ARAMA YAP
-                        </Typography>
-                    </Paper>
-                </Box>
-                <Button variant="contained" color="primary" onClick={() => openWhatsApp(userData.phone)} sx={{ marginBottom: theme.spacing(1), backgroundColor: '#4CAF50', color: '#FFFFFF', '&:hover': { backgroundColor: '#388E3C' } }}>
-                    <WhatsAppIcon />
-                    Whatsap ile iletişime geç
+                <Button variant="contained" color="primary" onClick={() => callPhone(userData.phone)}  sx={{marginBottom: theme.spacing(1),backgroundColor: '#af4c4c', color: '#FFFFFF',}}>
+                    <PhoneIcon sx={{ marginRight: 1 }} />
+                    TELEFON İLE ARAMA YAP
                 </Button>
+
+                {userData.phone && userData.whatsapp_permission && (
+                    <Button variant="contained" color="primary" onClick={() => openWhatsApp(userData.phone)} sx={{ marginBottom: theme.spacing(1), backgroundColor: '#4CAF50', color: '#FFFFFF', '&:hover': { backgroundColor: '#388E3C' } }}>
+                        <WhatsAppIcon sx={{ marginRight: 1 }}/>
+                        Whatsap ile iletişime geç
+                    </Button>
+                )}
+
+
+                {userData.telegram && userData.telegram_permission && (
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => openTelegram(userData.telegram)}
+                            sx={{marginBottom: theme.spacing(1), backgroundColor: '#0088cc', color: '#ffffff', '&:hover': { backgroundColor: '#004465' }
+                            }}
+                        >
+                            <Telegram/>
+                            Telegram ile mesaj gönder
+                        </Button>
+                )}
+
             </div>
+
         </ThemeProvider>
     );
 

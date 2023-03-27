@@ -66,10 +66,7 @@ const updateUserPhoneApi = async (userId,phone) => {
     return response;
 };
 
-const updateUserProfileApi = async (userId, file) => {
-    const formData = new FormData();
-    formData.append('photo', file);
-
+const updateUserProfileApi = async (userId, formData) => {
     const response = await fetch(API_URLS['updatePhoto'] + userId, {
         method: 'PUT',
         body: formData,
@@ -78,4 +75,84 @@ const updateUserProfileApi = async (userId, file) => {
     return response;
 };
 
-export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi };
+const updateUserTelegramLinkApi = async (userId,telegram) => {
+    const response = await fetch(API_URLS['updateTelegramLink'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            telegram: telegram
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+
+const updateUserTelegramPermissionApi = async (userId,permission) => {
+    const response = await fetch(API_URLS['updateTelegramPermission'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            permission: permission
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+const updateUserWhatsappPermissionApi = async (userId,permission) => {
+    const response = await fetch(API_URLS['updateWhatsappPermission'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            permission: permission
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+const updateUserPhonePermissionApi = async (userId,permission) => {
+    const response = await fetch(API_URLS['updatePhonePermission'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            permission: permission
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+const updateUserPasswordApi = async (userId,password) => {
+    const response = await fetch(API_URLS['updatePassword'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            password: password
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+
+
+export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserTelegramPermissionApi,
+    updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,
+    updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,updateUserPhonePermissionApi,updateUserPasswordApi };
