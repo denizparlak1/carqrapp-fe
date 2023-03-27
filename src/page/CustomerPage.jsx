@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
     Container,
     Paper,
@@ -11,20 +11,36 @@ import {
     IconButton,
     TextField,
     Alert,
-    Snackbar
+    Snackbar, FormControlLabel, Switch
 } from "@mui/material";
-import QRCode from "qrcode.react";
-import {Email, Message, Phone, DriveEta, Edit, Close, Save,Share} from "@mui/icons-material";
+import InlineSVG from "react-inlinesvg";
+import {
+    DriveEta,
+    Edit,
+    Close,
+    Save,
+    GetApp,
+    WhatsApp,
+    Telegram,
+    PhoneAndroid,
+    EmailTwoTone,
+    MessageTwoTone,
+    PhoneCallbackOutlined
+} from "@mui/icons-material";
 import Box from "@mui/material/Box";
+import ResetPasswordComponent from '../component/ResetPasswordComponent';
 import {
     getUserDataApi,
     updateUserEmailApi,
-    updateUserMessageApi,
-    updateUserPhoneApi,
-    updateUserPlateApi
+    updateUserMessageApi, updateUserPasswordApi,
+    updateUserPhoneApi, updateUserPhonePermissionApi,
+    updateUserPlateApi, updateUserTelegramLinkApi, updateUserTelegramPermissionApi, updateUserWhatsappPermissionApi
 } from "../hook/UserDataApi";
 import { useLocation } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import {ProfileImageComponent} from "../component/ProfileImageComponent";
+
 
 const CustomerPage = () => {
     const [data, setData] = useState({});
@@ -37,6 +53,13 @@ const CustomerPage = () => {
     const [editingField, setEditingField] = useState(null);
     const [editableData, setEditableData] = useState({ ...data });
 
+    const [whatsappPermission, setWhatsappPermission] = useState(null);
+    const [telegramPermission, setTelegramPermission] = useState(null);
+    const [phonePermission, setPhonePermission] = useState(null);
+    const [telegramUsername, setTelegramUsername] = useState(null);
+
+    const [editingTelegramUsername, setEditingTelegramUsername] = useState(false);
+
 
     useEffect(() => {
         if (!userId) return;
@@ -45,13 +68,40 @@ const CustomerPage = () => {
             const result = await response.json();
             setQrImageUrl(result.qr);
             setData(result);
+            setWhatsappPermission(result.whatsapp_permission);
+            setTelegramPermission(result.telegram_permission);
+            setPhonePermission(result.phone_permission);
+            setTelegramUsername(result.telegram);
         };
         fetchData();
     }, [userId]);
 
+    const handleTelegramUsernameChange = async (event) => {
+        setTelegramUsername(event.target.value);
+    };
+
+    const handleEditTelegramUsername = () => {
+        setEditingTelegramUsername(true);
+    };
+
+    const handleSaveTelegramUsername = async () => {
+        const response = await updateUserTelegramLinkApi(userId, telegramUsername);
+        if (response.ok) {
+            setSuccessMessage('Telegram kullanıcı adı başarıyla güncellendi!');
+            setSnackbarOpen(true);
+        } else {
+            // Handle any errors that may occur.
+        }
+        setEditingTelegramUsername(false);
+    };
+
+    const handleCancelTelegramUsername = () => {
+        setEditingTelegramUsername(false);
+    };
     const handleEditToggle = async (field) => {
         if (editingField === field) {
             setData(editableData);
+
 
             if (field === "mail") {
                 const response = await updateUserEmailApi(userId, editableData.mail);
@@ -67,13 +117,15 @@ const CustomerPage = () => {
                     setSnackbarOpen(true);
                 }
             }
-            if (field === "plate") editableData.plate = editableData.plate.toUpperCase();{
+            if (field === "plate") {
+                editableData.plate = editableData.plate.toUpperCase();
                 const response = await updateUserPlateApi(userId, editableData.plate);
                 if (response.ok) {
                     setSuccessMessage('Araç plakası başarıyla güncellendi!');
                     setSnackbarOpen(true);
                 }
             }
+
             if (field === "phone") {
                 const response = await updateUserPhoneApi(userId, editableData.phone);
                 if (response.ok) {
@@ -81,7 +133,19 @@ const CustomerPage = () => {
                     setSnackbarOpen(true);
                 }
             }
+            if (field === "password") {
+                if (editableData.password !== editableData.confirmPassword) {
+                    setSuccessMessage('Şifreler eşleşmiyor! Lütfen şifreleri kontrol edin.');
+                    setSnackbarOpen(true);
+                    return;
+                }
 
+                const response = await updateUserPasswordApi(userId, editableData.password);
+                if (response.ok) {
+                    setSuccessMessage('Şifre başarıyla güncellendi!');
+                    setSnackbarOpen(true);
+                }
+            }
 
             setEditingField(null);
         } else {
@@ -90,24 +154,53 @@ const CustomerPage = () => {
         }
     };
 
-    const handleShare = async () => {
-        if (!navigator.share) {
-            alert('Web Share API is not supported on your browser');
-            return;
-        }
+    const handleTogglePermission = async (field) => {
 
-        const canvas = document.querySelector('canvas'); // get the canvas element containing the QR code
-        const dataUri = canvas.toDataURL(); // convert the QR code image to a data URI
+        if (field === "whatsapp_permission") {
+            setWhatsappPermission(!whatsappPermission);
+            const response = await updateUserWhatsappPermissionApi(userId,!whatsappPermission)
+            setSuccessMessage('Whatsapp İzni Güncellendi');
+            setSnackbarOpen(true);
+            if (!response.ok){
+
+                console.error("Error updating Whatsapp permission");
+            }
+        } else if (field === "telegram_permission") {
+            setTelegramPermission(!telegramPermission);
+            const response = await updateUserTelegramPermissionApi(userId, !telegramPermission);
+            setSuccessMessage('Telegram İzni Güncellendi');
+            setSnackbarOpen(true);
+            if (!response.ok) {
+                // Handle any errors that may occur
+                console.error("Error updating Telegram permission");
+            }
+        } else if (field === "phone_permission"){
+            setPhonePermission(!phonePermission);
+            const response = await updateUserPhonePermissionApi(userId, !phonePermission);
+            setSuccessMessage('Arama İzni Güncellendi');
+            setSnackbarOpen(true);
+            if (!response.ok) {
+                // Handle any errors that may occur
+                console.error("Error updating Telegram permission");
+            }
+        }
+    };
+
+    const downloadQRCode = async () => {
+        if (!qrImageUrl) return;
 
         try {
-            await navigator.share({
-                title: 'My QR Code',
-                text: 'Check out my QR code!',
-                files: [{type: 'image/png', dataUri}]
-            });
-            console.log('Shared successfully');
+            const response = await fetch(qrImageUrl);
+            const blob = await response.blob();
+
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = "qr-code.svg";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
         } catch (error) {
-            console.log('Error sharing:', error);
+            console.error("Error downloading QR code image:", error);
         }
     };
 
@@ -151,11 +244,11 @@ const CustomerPage = () => {
                 )}
                 {isEditing ? (
                     <IconButton edge="end" onClick={() => handleEditToggle(fieldKey)}>
-                        <Save />
+                        <Save color="success" />
                     </IconButton>
                 ) : (
                     <IconButton edge="end" onClick={() => handleEditToggle(fieldKey)}>
-                        <Edit />
+                        <Edit color="error" />
                     </IconButton>
                 )}
                 {isEditing ? (
@@ -163,6 +256,8 @@ const CustomerPage = () => {
                         <Close />
                     </IconButton>
                 ) : null}
+
+
             </ListItem>
         );
     };
@@ -180,17 +275,14 @@ const CustomerPage = () => {
             <Container maxWidth="sm">
                 <Paper elevation={3} sx={{ padding: 2 }}>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                        <Avatar
-                            src={data.photo}
-                            alt={`${data.mail || 'User'}'s profile image`}
-                            sx={{ width: 100, height: 100 }}
-                        />
+                        <ProfileImageComponent url={data.photo} mail={data.mail} userId={userId} />
+
                         {qrImageUrl && (
                             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                                <QRCode size={50} value={qrImageUrl} />
-                                <IconButton onClick={handleShare} sx={{ marginLeft: 1 }}>
-                                    <Share />
-                                </IconButton>
+                                <InlineSVG src={qrImageUrl} style={{ width: '100px', height: '100px' }} onError={(error) => console.error(error)} />
+                                <Button onClick={downloadQRCode} sx={{ marginLeft: 1 }}>
+                                    <GetApp />
+                                </Button>
                             </Box>
                         )}
                     </Box>
@@ -199,11 +291,94 @@ const CustomerPage = () => {
                     </Typography>
                     <Divider sx={{ marginY: 2 }} />
                     <List>
-                        {renderField("mail", "E-posta Adresi", Email)}
-                        {renderField("message", "Park Mesajı", Message)}
-                        {renderField("phone", "Telefon Numarası", Phone)}
+                        {renderField("mail", "E-posta Adresi", EmailTwoTone)}
+                        {renderField("message", "Park Mesajı", MessageTwoTone)}
+                        {renderField("phone", "Telefon Numarası", PhoneAndroid)}
                         {renderField("plate", "Araç Plakası", DriveEta)}
+                        <ResetPasswordComponent
+                            isEditing={editingField === 'password'}
+                            editableData={editableData}
+                            handleChange={handleChange}
+                            handleEditToggle={handleEditToggle}
+                            setEditingField={setEditingField}
+                        />
                     </List>
+                    <Typography variant="h6" component="h3" align="left">
+                        İletişim İzinleri
+                    </Typography>
+                    <ListItem>
+                        <ListItemIcon>
+                            <PhoneCallbackOutlined />
+                        </ListItemIcon>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={phonePermission}
+                                    onChange={() => handleTogglePermission("phone_permission")}
+                                />
+                            }
+                            label="Telefon ile arama izni"
+                        />
+                    </ListItem>
+                    <ListItem>
+                        <ListItemIcon>
+                            <WhatsApp />
+                        </ListItemIcon>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={whatsappPermission}
+                                    onChange={() => handleTogglePermission("whatsapp_permission")}
+                                />
+                            }
+                            label="Whatsapp İzni"
+                        />
+                    </ListItem>
+                    <ListItem>
+                        <ListItemIcon>
+                            <Telegram />
+                        </ListItemIcon>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={telegramPermission}
+                                    onChange={() => handleTogglePermission("telegram_permission")}
+                                />
+                            }
+                            label="Telegram İzni"
+                        />
+                    </ListItem>
+                    {telegramPermission && (
+                        <ListItem>
+                            <ListItemIcon>
+                                <Avatar />
+                            </ListItemIcon>
+                            {editingTelegramUsername ? (
+                                <TextField
+                                    label="Telegram Kullanıcı Adı"
+                                    value={telegramUsername || ""}
+                                    onChange={handleTelegramUsernameChange}
+                                    fullWidth
+                                />
+                            ) : (
+                                <ListItemText primary="Telegram Kullanıcı Adı" secondary={telegramUsername || "N/A"} />
+                            )}
+                            {editingTelegramUsername ? (
+                                <>
+                                    <IconButton edge="end" onClick={handleSaveTelegramUsername}>
+                                        <Save />
+                                    </IconButton>
+                                    <IconButton edge="end" onClick={handleCancelTelegramUsername}>
+                                        <Close />
+                                    </IconButton>
+                                </>
+                            ) : (
+                                <IconButton edge="end" onClick={handleEditTelegramUsername}>
+                                    <Edit color="error"/>
+                                </IconButton>
+                            )}
+                        </ListItem>
+                    )}
                 </Paper>
                 <Snackbar
                     open={snackbarOpen}

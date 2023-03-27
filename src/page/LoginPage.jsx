@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Button, TextField, Container } from '@mui/material';
 import { styled } from '@mui/system';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {signInWithEmailAndPassword} from "../auth/auth";
 import { useNavigate } from 'react-router-dom';
+import Avatar from "@mui/material/Avatar";
+import logo from '../assets/logo.png';
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -13,9 +14,6 @@ const StyledContainer = styled(Container)({
     marginTop: 64,
 });
 
-const StyledIcon = styled(LockOutlinedIcon)({
-    marginBottom: 16,
-});
 
 const StyledForm = styled('form')({
     width: '100%',
@@ -30,7 +28,6 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,8 +50,10 @@ const LoginPage = () => {
 
     return (
         <StyledContainer component="main" maxWidth="xs">
+            <Avatar src={logo} sx={{ width: 64, height: 64, marginBottom: 2 }} />
+            <h2> Qr Park Kullanıcı Girişi</h2>
             <div>
-                <StyledIcon fontSize="large" sx={{alignItems:'center'}} />
+
                 <StyledForm onSubmit={handleSubmit} noValidate>
                     <TextField
                         variant="outlined"
