@@ -40,6 +40,8 @@ import { useLocation } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import {ProfileImageComponent} from "../component/ProfileImageComponent";
+import ContactPermissions from "../component/ContentPermissions";
+import TelegramUsername from "../component/social-media/TelegramUsername";
 
 
 const CustomerPage = () => {
@@ -276,7 +278,6 @@ const CustomerPage = () => {
                 <Paper elevation={3} sx={{ padding: 2 }}>
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <ProfileImageComponent url={data.photo} mail={data.mail} userId={userId} />
-
                         {qrImageUrl && (
                             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                                 <InlineSVG src={qrImageUrl} style={{ width: '100px', height: '100px' }} onError={(error) => console.error(error)} />
@@ -306,79 +307,18 @@ const CustomerPage = () => {
                     <Typography variant="h6" component="h3" align="left">
                         İletişim İzinleri
                     </Typography>
-                    <ListItem>
-                        <ListItemIcon>
-                            <PhoneCallbackOutlined />
-                        </ListItemIcon>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={phonePermission}
-                                    onChange={() => handleTogglePermission("phone_permission")}
-                                />
-                            }
-                            label="Telefon ile arama izni"
-                        />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon>
-                            <WhatsApp />
-                        </ListItemIcon>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={whatsappPermission}
-                                    onChange={() => handleTogglePermission("whatsapp_permission")}
-                                />
-                            }
-                            label="Whatsapp İzni"
-                        />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon>
-                            <Telegram />
-                        </ListItemIcon>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={telegramPermission}
-                                    onChange={() => handleTogglePermission("telegram_permission")}
-                                />
-                            }
-                            label="Telegram İzni"
-                        />
-                    </ListItem>
-                    {telegramPermission && (
-                        <ListItem>
-                            <ListItemIcon>
-                                <Avatar />
-                            </ListItemIcon>
-                            {editingTelegramUsername ? (
-                                <TextField
-                                    label="Telegram Kullanıcı Adı"
-                                    value={telegramUsername || ""}
-                                    onChange={handleTelegramUsernameChange}
-                                    fullWidth
-                                />
-                            ) : (
-                                <ListItemText primary="Telegram Kullanıcı Adı" secondary={telegramUsername || "N/A"} />
-                            )}
-                            {editingTelegramUsername ? (
-                                <>
-                                    <IconButton edge="end" onClick={handleSaveTelegramUsername}>
-                                        <Save />
-                                    </IconButton>
-                                    <IconButton edge="end" onClick={handleCancelTelegramUsername}>
-                                        <Close />
-                                    </IconButton>
-                                </>
-                            ) : (
-                                <IconButton edge="end" onClick={handleEditTelegramUsername}>
-                                    <Edit color="error"/>
-                                </IconButton>
-                            )}
-                        </ListItem>
-                    )}
+                    <ContactPermissions
+                        phonePermission={phonePermission}
+                        whatsappPermission={whatsappPermission}
+                        telegramPermission={telegramPermission}
+                        handleTogglePermission={handleTogglePermission}
+                    />
+                    <TelegramUsername
+                        telegramPermission={telegramPermission}
+                        telegramUsername={telegramUsername}
+                        handleSaveTelegramUsername={handleSaveTelegramUsername}
+                    />
+
                 </Paper>
                 <Snackbar
                     open={snackbarOpen}

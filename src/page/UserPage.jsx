@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import { styled } from '@mui/system';
 import Telegram from '@mui/icons-material/Telegram';
+import {adSenseCode} from "../component/Adsens";
 
 
 
@@ -137,7 +138,7 @@ const UserPage = () => {
                 )}
 
             </div>
-
+            <div dangerouslySetInnerHTML={{ __html: adSenseCode }} />
         </ThemeProvider>
     );
 

@@ -5,6 +5,7 @@ import {signInWithEmailAndPassword} from "../auth/auth";
 import { useNavigate } from 'react-router-dom';
 import Avatar from "@mui/material/Avatar";
 import logo from '../assets/logo.png';
+import Footer from "../component/Footer";
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -91,6 +92,7 @@ const LoginPage = () => {
                     </StyledButton>
                 </StyledForm>
             </div>
+            <Footer />
         </StyledContainer>
     );
 };
