@@ -12,6 +12,7 @@ export const API_URLS = {
     updateWhatsappPermission: BASE_URL+'/user/update/whatsapp/permission/',
     updatePhonePermission: BASE_URL+'/user/update/phone/permission/',
     updatePassword: BASE_URL+'/user/update/password/',
+    updateLoginPermission: BASE_URL+'/user/update/login/permission/',
     generateBulkQr: BASE_URL +'/bulk_register/'
 };
 

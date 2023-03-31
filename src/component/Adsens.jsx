@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const adSenseCode = `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2856879062144826"
      crossorigin="anonymous"></script>
 <!-- Qr App User Page -->
@@ -11,3 +13,10 @@ export const adSenseCode = `<script async src="https://pagead2.googlesyndication
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>`;
 
+const AdSense = () => {
+    return (
+        <div dangerouslySetInnerHTML={{ __html: adSenseCode }} />
+    );
+};
+
+export default AdSense;

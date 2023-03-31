@@ -51,7 +51,7 @@ const LoginPage = () => {
 
     return (
         <StyledContainer component="main" maxWidth="xs">
-            <Avatar src={logo} sx={{ width: 64, height: 64, marginBottom: 2 }} />
+            <Avatar src={logo} sx={{ width: 160, height: 70, marginBottom: 2, borderRadius: 0 }} />
             <h2> Qr Park Kullanıcı Girişi</h2>
             <div>
 
