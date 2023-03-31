@@ -151,8 +151,24 @@ const updateUserPasswordApi = async (userId,password) => {
     return response;
 };
 
+const updateUserLoginPermissionApi = async (userId) => {
+    const response = await fetch(API_URLS['updateLoginPermission'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+
 
 
 export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserTelegramPermissionApi,
     updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,
+    updateUserLoginPermissionApi,
     updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,updateUserPhonePermissionApi,updateUserPasswordApi };

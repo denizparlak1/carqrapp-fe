@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { getUserDataApi } from "../hook/UserDataApi";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
@@ -13,7 +13,8 @@ import Box from '@mui/material/Box';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import { styled } from '@mui/system';
 import Telegram from '@mui/icons-material/Telegram';
-import {adSenseCode} from "../component/Adsens";
+import AdSense from "../component/Adsens";
+
 
 
 
@@ -33,6 +34,8 @@ const theme = createTheme({
 const UserPage = () => {
     const { userId } = useParams();
     const [userData, setUserData] = useState({});
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -41,7 +44,17 @@ const UserPage = () => {
             setUserData(data);
         };
         fetchUserData();
+
     }, [userId]);
+
+    useEffect(() => {
+
+        if (userData.first_login) {
+
+            navigate('/register',{ state: { userId } });
+
+        }
+    }, [userData, navigate]);
 
 
     const openTelegram = (username) => {
@@ -138,7 +151,6 @@ const UserPage = () => {
                 )}
 
             </div>
-            <div dangerouslySetInnerHTML={{ __html: adSenseCode }} />
         </ThemeProvider>
     );
 
