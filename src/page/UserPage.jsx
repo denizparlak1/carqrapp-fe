@@ -13,9 +13,6 @@ import Box from '@mui/material/Box';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import { styled } from '@mui/system';
 import Telegram from '@mui/icons-material/Telegram';
-import AdSense from "../component/Adsens";
-
-
 
 
 const theme = createTheme({
@@ -50,9 +47,7 @@ const UserPage = () => {
     useEffect(() => {
 
         if (userData.first_login) {
-
             navigate('/register',{ state: { userId } });
-
         }
     }, [userData, navigate]);
 

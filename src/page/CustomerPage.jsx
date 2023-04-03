@@ -259,7 +259,6 @@ const CustomerPage = () => {
                     </IconButton>
                 ) : null}
 
-
             </ListItem>
         );
     };
