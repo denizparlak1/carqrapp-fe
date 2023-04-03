@@ -5,6 +5,8 @@ import AdminPage from "./page/AdminPage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import CustomerPage from "./page/CustomerPage";
 import FirstLoginPage from "./page/FirstLoginPage";
+import ResetPasswordPage from "./page/ResetPasswordPage";
+
 
 export default function App() {
     return (
@@ -16,6 +18,7 @@ export default function App() {
                 <Route path="/customer" element={<ProtectedRoute component={CustomerPage} />} />
                 <Route path="/admin" element={<ProtectedRoute component={AdminPage} />} />
                 <Route path="/register" element={<FirstLoginPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
 
             </Routes>
         </BrowserRouter>

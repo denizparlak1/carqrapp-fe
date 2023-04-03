@@ -20,7 +20,7 @@ const FirstLoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateUserLoginPermissionApi(false);
+            await updateUserLoginPermissionApi(userId);
             await updateUserPasswordApi(userId,password);
             await updateUserEmailApi(userId,email)
             localStorage.setItem('visited', true);

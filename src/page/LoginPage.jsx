@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, TextField, Container } from '@mui/material';
+import {Button, TextField, Container, Link} from '@mui/material';
 import { styled } from '@mui/system';
 import {signInWithEmailAndPassword} from "../auth/auth";
 import { useNavigate } from 'react-router-dom';
@@ -90,6 +90,9 @@ const LoginPage = () => {
                     >
                         Giriş Yap
                     </StyledButton>
+                    <Link href="/password-reset" variant="body2">
+                        Şifrenizi mi unuttunuz?
+                    </Link>
                 </StyledForm>
             </div>
             <Footer />
