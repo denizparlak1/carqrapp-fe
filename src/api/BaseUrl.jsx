@@ -13,6 +13,11 @@ export const API_URLS = {
     updatePhonePermission: BASE_URL+'/user/update/phone/permission/',
     updatePassword: BASE_URL+'/user/update/password/',
     updateLoginPermission: BASE_URL+'/user/update/login/permission/',
-    generateBulkQr: BASE_URL +'/bulk_register/'
+    generateBulkQr: BASE_URL +'/bulk_register/',
+
+    getReports: BASE_URL +'/reports/',
+    downloadReport: BASE_URL +'/download/'
+
+
 };
 

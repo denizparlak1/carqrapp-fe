@@ -17,7 +17,7 @@ const Footer = () => {
                 © {new Date().getFullYear()} Qr Park. Tüm hakları saklıdır.
             </Typography>
             <Link
-                href="/kvkk.pdf"
+                href="https://storage.googleapis.com/daglarapp/kvkk/Kis%CC%A7isel%20Verilerin%20Is%CC%A7lenmesi%20Ve%20Korunmas%C4%B1%20Hakk%C4%B1nda%20Ayd%C4%B1nlatma%20Metni.pdf"
                 target="_blank"
                 rel="noopener"
                 startIcon={<DescriptionIcon />}

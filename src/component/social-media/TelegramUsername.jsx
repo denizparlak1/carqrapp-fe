@@ -1,72 +1,51 @@
-import React, { useState } from "react";
-import {
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    IconButton,
-    TextField,
-    Avatar,
-} from "@mui/material";
+import React from "react";
+import { ListItem, ListItemIcon, ListItemText, TextField, IconButton } from "@mui/material";
+import { Telegram } from "@mui/icons-material";
 import { Edit, Save, Close } from "@mui/icons-material";
 
-const TelegramUsername = (props) => {
-    const { telegramPermission, telegramUsername, handleSaveTelegramUsername } = props;
-    const [editingTelegramUsername, setEditingTelegramUsername] = useState(false);
-    const [newTelegramUsername, setNewTelegramUsername] = useState("");
-
-    const handleEditTelegramUsername = () => {
-        setEditingTelegramUsername(true);
-        setNewTelegramUsername(telegramUsername);
-    };
-
-    const handleSaveNewTelegramUsername = () => {
-        handleSaveTelegramUsername(newTelegramUsername);
-        setEditingTelegramUsername(false);
-    };
-
-    const handleCancelNewTelegramUsername = () => {
-        setEditingTelegramUsername(false);
-    };
-
-
-    const handleTelegramUsernameChange = (event) => {
-        setNewTelegramUsername(event.target.value);
-    };
+const TelegramUsername = ({
+                              telegramPermission,
+                              telegramUsername,
+                              handleSaveTelegramUsername,
+                              handleEditTelegramUsername,
+                              handleCancelTelegramUsername,
+                              editingTelegramUsername,
+                              handleTelegramUsernameChange,
+                          }) => {
+    if (!telegramPermission) {
+        return null;
+    }
 
     return (
-        <>
-            {telegramPermission && (
-                <ListItem>
-                    <ListItemIcon>
-                        <Avatar />
-                    </ListItemIcon>
-                    {editingTelegramUsername ? (
-                        <TextField
-                            label="Telegram Kullanıcı Adı"
-                            value={newTelegramUsername || ""}
-                            onChange={handleTelegramUsernameChange}
-                            fullWidth
-                        />
-                    ) : (
-                        <ListItemText primary="Telegram Kullanıcı Adı" secondary={telegramUsername || "N/A"} />
-                    )}
-                    {editingTelegramUsername ? (
-                        <>
-                            <IconButton edge="end" onClick={handleSaveNewTelegramUsername}>
-                            <Save />
-                            </IconButton>
-                            <IconButton edge="end" onClick={handleCancelNewTelegramUsername}>
-                            <Close />
-                            </IconButton>
-                        </>
-                    ) : (
-                        <IconButton edge="end" onClick={handleEditTelegramUsername}>
-                            <Edit color="error" />
-                        </IconButton>
-                    )}
-                </ListItem>
+        <ListItem>
+            <ListItemIcon>
+                <Telegram />
+            </ListItemIcon>
+            {editingTelegramUsername ? (
+                <TextField
+                    label="Telegram Kullanıcı Adı"
+                    value={telegramUsername || ""}
+                    onChange={handleTelegramUsernameChange}
+                    fullWidth
+                />
+            ) : (
+                <ListItemText primary="Telegram Kullanıcı Adı" secondary={telegramUsername || "N/A"} />
             )}
-        </>
+            {editingTelegramUsername ? (
+                <IconButton edge="end" onClick={handleSaveTelegramUsername}>
+                    <Save color="success" />
+                </IconButton>
+            ) : (
+                <IconButton edge="end" onClick={handleEditTelegramUsername}>
+                    <Edit color="error" />
+                </IconButton>
+            )}
+            {editingTelegramUsername ? (
+                <IconButton edge="end" onClick={handleCancelTelegramUsername}>
+                    <Close />
+                </IconButton>
+            ) : null}
+        </ListItem>
     );
 };
 
