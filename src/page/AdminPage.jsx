@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import {AppBar, Toolbar, Typography, Button, TextField, Container, CircularProgress} from '@mui/material';
+import {AppBar, Toolbar, Typography, Button, TextField, Container} from '@mui/material';
 import { styled } from '@mui/system';
 import {signOut} from "../auth/auth";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {generatePdfApi} from "../hook/GeneratePdfApi";
 import Box from "@mui/material/Box";
 import AlertSnackbar from "../alert/Alert";
 
-import Logo from '../assets/uslu-logo.png'
 
 const StyledContainer = styled(Container)({
     marginTop: 64,
@@ -26,7 +25,7 @@ const LogoImage = styled('img')({
 
 const AdminPage = () => {
     const [customerName, setCustomerName] = useState('');
-    const [qrCodeCount, setQrCodeCount] = useState(0);
+    const [qrCodeCount, setQrCodeCount] = useState(30);
     const [pdfUrl, setPdfUrl] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [alertOpen, setAlertOpen] = useState(false);
@@ -44,34 +43,23 @@ const AdminPage = () => {
         }
     };
 
-    const handleOpenPdf = () => {
-        window.open(pdfUrl, '_blank');
-    };
 
-    const handleDownloadPdf = () => {
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.download = 'qrcodes.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
 
     const handleGeneratePdf = async () => {
         setIsLoading(true);
         try {
             setPdfUrl('');
             const pdfUrl = await generatePdfApi(customerName, qrCodeCount, 'user');
-            setPdfUrl(pdfUrl.pdf_url);
+            setPdfUrl(pdfUrl.message);
 
             setAlertSeverity('success');
-            setAlertMessage('PDF Başarıyla Oluşturuldu.');
+            setAlertMessage('QR Kod Baskısı info@qrpark.com.tr adresine iletilecektir..');
             setAlertOpen(true);
             setIsLoading(false);
         } catch (error) {
             console.error('PDF generation error:', error.message);
             setAlertSeverity('error');
-            setAlertMessage('PDF oluşturulamadı, tekrar deneyin!');
+            setAlertMessage('QR Kod Baskısı oluşturulamadı, tekrar deneyin!');
             setAlertOpen(true);
             setIsLoading(false);
         }
@@ -88,7 +76,7 @@ const AdminPage = () => {
                         Yönetici Paneli
                     </Typography>
                     <Button color="inherit" onClick={handleLogout}>Çıkış</Button>
-                    <Button color="inherit">Raporlar</Button>
+                    <Button component={Link} to='/reports' color="inherit">Raporlar</Button>
                 </Toolbar>
             </AppBar>
             <StyledContainer>
@@ -106,27 +94,16 @@ const AdminPage = () => {
                         shrink: true,
                     }}
                     variant="outlined"
-                    onChange={(event) => setQrCodeCount(event.target.value)}
+                    defaultValue={qrCodeCount}
+                    disabled
+                    //onChange={(event) => setQrCodeCount(event.target.value)}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 2 }}>
                     <Button variant="contained" color="primary" onClick={handleGeneratePdf} sx={{backgroundColor: 'green' }}>
                         Oluştur
                     </Button>
-                    {isLoading && (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: 2 }}>
-                            <CircularProgress />
-                        </Box>
-                    )}
-                    {pdfUrl && (
-                        <>
-                            <Button variant="contained" color="primary" sx={{ marginLeft: 2 }} onClick={handleOpenPdf}>
-                                Görüntüle
-                            </Button>
-                            <Button variant="contained" color="primary" sx={{ marginLeft: 2 }} onClick={handleDownloadPdf} download={`${customerName}.pdf`}>
-                                İndir
-                            </Button>
-                        </>
-                    )}
+
+
                 </Box>
             </StyledContainer>
             <AlertSnackbar

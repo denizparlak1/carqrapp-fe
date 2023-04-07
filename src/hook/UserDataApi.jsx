@@ -165,10 +165,19 @@ const updateUserLoginPermissionApi = async (userId) => {
     return response;
 };
 
+const getAdminReportApi = async () => {
+    const response = await fetch(API_URLS['getReports']);
+    return response;
+};
 
 
+const downloadReportApi = async (filename) => {
+    const response = await fetch(API_URLS['downloadReport'] + `${filename}`);
+    return response;
+};
 
 export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserTelegramPermissionApi,
     updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,
     updateUserLoginPermissionApi,
-    updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,updateUserPhonePermissionApi,updateUserPasswordApi };
+    updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,downloadReportApi,
+    updateUserPhonePermissionApi,updateUserPasswordApi,getAdminReportApi };

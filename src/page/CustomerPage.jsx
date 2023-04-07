@@ -79,18 +79,27 @@ const CustomerPage = () => {
     }, [userId]);
 
     const handleTelegramUsernameChange = async (event) => {
-        setTelegramUsername(event.target.value);
+        setEditableData({ ...editableData, telegram: event.target.value });
     };
+
 
     const handleEditTelegramUsername = () => {
         setEditingTelegramUsername(true);
     };
 
     const handleSaveTelegramUsername = async () => {
-        const response = await updateUserTelegramLinkApi(userId, telegramUsername);
+        const response = await updateUserTelegramLinkApi(userId, editableData.telegram);
+
         if (response.ok) {
             setSuccessMessage('Telegram kullanıcı adı başarıyla güncellendi!');
             setSnackbarOpen(true);
+
+
+            // Fetch user data again to reflect the updated Telegram username
+            const userDataResponse = await getUserDataApi(userId);
+            const updatedUserData = await userDataResponse.json();
+            setData(updatedUserData);
+            setTelegramUsername(updatedUserData.telegram);
         } else {
             // Handle any errors that may occur.
         }
@@ -314,9 +323,14 @@ const CustomerPage = () => {
                     />
                     <TelegramUsername
                         telegramPermission={telegramPermission}
-                        telegramUsername={telegramUsername}
+                        telegramUsername={editingTelegramUsername ? editableData.telegram : telegramUsername}
                         handleSaveTelegramUsername={handleSaveTelegramUsername}
+                        handleEditTelegramUsername={handleEditTelegramUsername}
+                        handleCancelTelegramUsername={handleCancelTelegramUsername}
+                        editingTelegramUsername={editingTelegramUsername}
+                        handleTelegramUsernameChange={handleTelegramUsernameChange}
                     />
+
 
                 </Paper>
                 <Snackbar

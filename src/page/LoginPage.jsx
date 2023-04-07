@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from "@mui/material/Avatar";
 import logo from '../assets/logo.png';
 import Footer from "../component/Footer";
+import AdSense from "../component/Adsens";
+
+
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -54,7 +57,7 @@ const LoginPage = () => {
             <Avatar src={logo} sx={{ width: 160, height: 70, marginBottom: 2, borderRadius: 0 }} />
             <h2> Qr Park Kullanıcı Girişi</h2>
             <div>
-
+                <AdSense client="ca-pub-2856879062144826" slot="8151809760" />
                 <StyledForm onSubmit={handleSubmit} noValidate>
                     <TextField
                         variant="outlined"
