@@ -31,6 +31,7 @@ const AdminPage = () => {
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('');
+    const [layerCount, setLayerCount] = useState('1');
 
     const navigate = useNavigate();
 
@@ -49,7 +50,7 @@ const AdminPage = () => {
         setIsLoading(true);
         try {
             setPdfUrl('');
-            const pdfUrl = await generatePdfApi(customerName, qrCodeCount, 'user');
+            const pdfUrl = await generatePdfApi(customerName, qrCodeCount, 'user',layerCount);
             setPdfUrl(pdfUrl.message);
 
             setAlertSeverity('success');
@@ -88,7 +89,7 @@ const AdminPage = () => {
                 />
                 <TextField
                     margin="normal"
-                    label="Basılacak QR Miktarı"
+                    label="Baskı Tabaka Miktarı"
                     type="number"
                     InputLabelProps={{
                         shrink: true,
@@ -97,6 +98,17 @@ const AdminPage = () => {
                     defaultValue={qrCodeCount}
                     disabled
                     //onChange={(event) => setQrCodeCount(event.target.value)}
+                />
+                <TextField
+                    margin="normal"
+                    label="Baskı Sayısı"
+                    type="number"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="outlined"
+                    defaultValue={layerCount}
+                    onChange={(event) => setLayerCount(event.target.value)}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 2 }}>
                     <Button variant="contained" color="primary" onClick={handleGeneratePdf} sx={{backgroundColor: 'green' }}>
