@@ -2,13 +2,14 @@
 
 import {API_URLS} from "../api/BaseUrl";
 
-const generatePdfApi = async (customer, count, role) => {
+const generatePdfApi = async (customer, count, role,cycle) => {
     const response = await fetch(API_URLS['generateBulkQr'], {
         method: 'POST',
         body: JSON.stringify({
             customer: customer,
             count: count,
-            role: role
+            role: role,
+            cycle:cycle
         }),
         headers: {
             'Content-Type': 'application/json'

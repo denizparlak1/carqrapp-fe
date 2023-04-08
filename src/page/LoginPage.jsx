@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from "@mui/material/Avatar";
 import logo from '../assets/logo.png';
 import Footer from "../component/Footer";
-import AdSense from "../component/Adsens";
+import AdSense from "react-adsense";
 
 
 
@@ -33,6 +33,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    const [errorMessage, setErrorMessage] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -48,7 +49,13 @@ const LoginPage = () => {
 
 
         } catch (error) {
-            console.error('Login error:', error);
+            if (error.code === 'auth/user-not-found') {
+                setErrorMessage('Kullanıcı adı veya şifre hatalı.');
+            } else if (error.code === 'auth/wrong-password') {
+                setErrorMessage('Kullanıcı adı veya şifre hatalı.');
+            } else {
+                setErrorMessage('Giriş yaparken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+            }
         }
     };
 
@@ -57,7 +64,13 @@ const LoginPage = () => {
             <Avatar src={logo} sx={{ width: 160, height: 70, marginBottom: 2, borderRadius: 0 }} />
             <h2> Qr Park Kullanıcı Girişi</h2>
             <div>
-                <AdSense client="ca-pub-2856879062144826" slot="8151809760" />
+                <AdSense.Google
+                    client="ca-pub-2856879062144826"
+                    slot="8151809760"
+                    style={{ display: "block", marginBottom: 20 }}
+                    format="auto"
+                    responsive="true"
+                />
                 <StyledForm onSubmit={handleSubmit} noValidate>
                     <TextField
                         variant="outlined"
@@ -85,6 +98,11 @@ const LoginPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    {errorMessage && (
+                        <div style={{ color: 'red', marginTop: '10px' }}>
+                            {errorMessage}
+                        </div>
+                    )}
                     <StyledButton
                         type="submit"
                         fullWidth
