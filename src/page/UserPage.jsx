@@ -13,6 +13,9 @@ import Box from '@mui/material/Box';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import { styled } from '@mui/system';
 import Telegram from '@mui/icons-material/Telegram';
+import {CarPlateComponent} from "../component/CarPlateComponent";
+import {UserMessageComponent} from "../component/UserMessageComponent";
+import {Sms} from "@mui/icons-material";
 
 
 const theme = createTheme({
@@ -67,26 +70,15 @@ const UserPage = () => {
         window.open(`tel:${phone}`, '_blank');
     };
 
-    const CarPlateWrapper = styled(Box)(({ theme }) => ({
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(1),
-        borderRadius: '5px',
-        fontSize: '24px',
-        display: 'flex',
-        alignItems: 'center',
-    }));
+    const sendSMS = (phone) => {
+        window.open(`sms:${phone}`, '_blank');
+    };
 
-    const ParkMessageWrapper = styled(Box)(({ theme }) => ({
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(1),
-        borderRadius: '5px',
-        display: 'flex',
-        alignItems: 'center',
-        border: `1px solid ${theme.palette.primary.main}`,
-    }));
+
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', height: '100vh', backgroundColor: theme.palette.background.paper }}>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', height: '100vh', backgroundColor: 'rgba(65,61,61,0.06)' }}>
                 {userData.photo ? (
                     <Avatar alt={userData.email} src={userData.photo} style={{ margin: theme.spacing(1), width: 100, height: 100 }} />
                 ) : (
@@ -94,56 +86,49 @@ const UserPage = () => {
                         {userData.email && userData.email.charAt(0).toUpperCase()}
                     </Avatar>
                 )}
+                {userData.name_permission ? (
+                    <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
+                        {userData.name} {userData.surname}
+                    </Typography>
+                ) : (
+                    <Typography variant="h5" gutterBottom style={{ textAlign: 'center' }}>
+                {userData.name && userData.name.substring(0,2)}*** {userData.surname && userData.surname.substring(0,2)}***
+                    </Typography>
+                )}
+                <CarPlateComponent plateNumber={userData.plate} sx={{margin: theme.spacing(10)}}/>
 
-
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: theme.spacing(1) }}>
-                    <CarPlateWrapper>
-                        <DriveEtaIcon sx={{ marginRight: 1 }} />
-                        🇹🇷 {userData.plate}
-                    </CarPlateWrapper>
-                </Box>
-
-
+                <UserMessageComponent message={userData.message} />
 
 
                 <Typography variant="h5" gutterBottom>
                     {userData.email}
                 </Typography>
-                <CardContent>
-                    <ParkMessageWrapper>
-                        <MessageIcon fontSize="small" sx={{ marginRight: 1, color: theme.palette.primary.main }} />
-                        <Typography variant="body1" component="span">
-                            Park Mesajı: {userData.message}
-                        </Typography>
-                    </ParkMessageWrapper>
-                </CardContent>
 
-
-                <Button variant="contained" color="primary" onClick={() => callPhone(userData.phone)}  sx={{marginBottom: theme.spacing(1),backgroundColor: '#af4c4c', color: '#FFFFFF',}}>
+                <Button variant="contained" color="primary" onClick={() => callPhone(userData.phone)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#af4c4c', color: '#FFFFFF' }}>
                     <PhoneIcon sx={{ marginRight: 1 }} />
                     TELEFON İLE ARAMA YAP
                 </Button>
 
+                <Button variant="contained" color="primary" onClick={() => sendSMS(userData.phone)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#ceae3f', color: '#FFFFFF' }}>
+                    <Sms sx={{ marginRight: 1 }} />
+                    SMS İLE MESAJ GÖNDER
+                </Button>
+
+
                 {userData.phone && userData.whatsapp_permission && (
-                    <Button variant="contained" color="primary" onClick={() => openWhatsApp(userData.phone)} sx={{ marginBottom: theme.spacing(1), backgroundColor: '#4CAF50', color: '#FFFFFF', '&:hover': { backgroundColor: '#388E3C' } }}>
-                        <WhatsAppIcon sx={{ marginRight: 1 }}/>
-                        Whatsap ile iletişime geç
+                    <Button variant="contained" color="primary" onClick={() => openWhatsApp(userData.phone)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#4CAF50', color: '#FFFFFF', '&:hover': { backgroundColor: '#388E3C' } }}>
+                        <WhatsAppIcon sx={{ marginRight: 1 }} />
+                        WHATSAPP İLE İLETİŞİME GEÇ
                     </Button>
                 )}
 
-
                 {userData.telegram && userData.telegram_permission && (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => openTelegram(userData.telegram)}
-                            sx={{marginBottom: theme.spacing(1), backgroundColor: '#0088cc', color: '#ffffff', '&:hover': { backgroundColor: '#004465' }
-                            }}
-                        >
-                            <Telegram/>
-                            Telegram ile mesaj gönder
-                        </Button>
+                    <Button variant="contained" color="primary" onClick={() => openTelegram(userData.telegram)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#0088cc', color: '#ffffff', '&:hover': { backgroundColor: '#004465' } }}>
+                        <Telegram />
+                        TELEGRAM İLE MESAJ GÖNDER
+                    </Button>
                 )}
+
 
             </div>
         </ThemeProvider>

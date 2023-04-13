@@ -32,7 +32,7 @@ import ResetPasswordComponent from '../component/ResetPasswordComponent';
 import {
     getUserDataApi,
     updateUserEmailApi,
-    updateUserMessageApi, updateUserPasswordApi,
+    updateUserMessageApi, updateUserNamePermissionApi, updateUserPasswordApi,
     updateUserPhoneApi, updateUserPhonePermissionApi,
     updateUserPlateApi, updateUserTelegramLinkApi, updateUserTelegramPermissionApi, updateUserWhatsappPermissionApi
 } from "../hook/UserDataApi";
@@ -58,7 +58,9 @@ const CustomerPage = () => {
     const [whatsappPermission, setWhatsappPermission] = useState(null);
     const [telegramPermission, setTelegramPermission] = useState(null);
     const [phonePermission, setPhonePermission] = useState(null);
+    const [namePermission, setNamePermission] = useState(null);
     const [telegramUsername, setTelegramUsername] = useState(null);
+
 
     const [editingTelegramUsername, setEditingTelegramUsername] = useState(false);
 
@@ -74,6 +76,7 @@ const CustomerPage = () => {
             setTelegramPermission(result.telegram_permission);
             setPhonePermission(result.phone_permission);
             setTelegramUsername(result.telegram);
+            setNamePermission(result.name_permission)
         };
         fetchData();
     }, [userId]);
@@ -112,7 +115,6 @@ const CustomerPage = () => {
     const handleEditToggle = async (field) => {
         if (editingField === field) {
             setData(editableData);
-
 
             if (field === "mail") {
                 const response = await updateUserEmailApi(userId, editableData.mail);
@@ -166,14 +168,12 @@ const CustomerPage = () => {
     };
 
     const handleTogglePermission = async (field) => {
-
         if (field === "whatsapp_permission") {
             setWhatsappPermission(!whatsappPermission);
             const response = await updateUserWhatsappPermissionApi(userId,!whatsappPermission)
             setSuccessMessage('Whatsapp İzni Güncellendi');
             setSnackbarOpen(true);
             if (!response.ok){
-
                 console.error("Error updating Whatsapp permission");
             }
         } else if (field === "telegram_permission") {
@@ -189,6 +189,16 @@ const CustomerPage = () => {
             setPhonePermission(!phonePermission);
             const response = await updateUserPhonePermissionApi(userId, !phonePermission);
             setSuccessMessage('Arama İzni Güncellendi');
+            setSnackbarOpen(true);
+            if (!response.ok) {
+                // Handle any errors that may occur
+                console.error("Error updating Telegram permission");
+            }
+        }
+        else if (field === "name_permission"){
+            setNamePermission(!namePermission);
+            const response = await updateUserNamePermissionApi(userId, !namePermission);
+            setSuccessMessage('İsim İzni Güncellendi');
             setSnackbarOpen(true);
             if (!response.ok) {
                 // Handle any errors that may occur
@@ -312,13 +322,11 @@ const CustomerPage = () => {
                             setEditingField={setEditingField}
                         />
                     </List>
-                    <Typography variant="h6" component="h3" align="left">
-                        İletişim İzinleri
-                    </Typography>
                     <ContactPermissions
                         phonePermission={phonePermission}
                         whatsappPermission={whatsappPermission}
                         telegramPermission={telegramPermission}
+                        namePermission={namePermission}
                         handleTogglePermission={handleTogglePermission}
                     />
                     <TelegramUsername

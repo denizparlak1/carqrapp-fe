@@ -6,10 +6,10 @@ import {
     FormControlLabel,
     Switch,
 } from "@mui/material";
-import { PhoneCallbackOutlined, WhatsApp, Telegram } from "@mui/icons-material";
+import {PhoneCallbackOutlined, WhatsApp, Telegram,ContactEmergency} from "@mui/icons-material";
 
 const ContactPermissions = (props) => {
-    const { phonePermission, whatsappPermission, telegramPermission, handleTogglePermission } = props;
+    const { phonePermission, whatsappPermission, telegramPermission,namePermission, handleTogglePermission } = props;
     return (
         <>
             <Typography variant="h6" component="h3" align="left">
@@ -41,6 +41,20 @@ const ContactPermissions = (props) => {
                         />
                     }
                     label="Whatsapp İzni"
+                />
+            </ListItem>
+            <ListItem>
+                <ListItemIcon>
+                    <ContactEmergency />
+                </ListItemIcon>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={namePermission}
+                            onChange={() => handleTogglePermission("name_permission")}
+                        />
+                    }
+                    label="İsim Görünürlüğü"
                 />
             </ListItem>
             <ListItem>
