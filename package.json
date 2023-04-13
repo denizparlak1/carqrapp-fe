@@ -7,7 +7,9 @@
     "@emotion/styled": "^11.10.6",
     "@google-cloud/storage": "^6.9.4",
     "@mui/icons-material": "^5.11.11",
+    "@mui/lab": "^5.0.0-alpha.125",
     "@mui/material": "^5.11.13",
+    "@mui/system": "^5.11.16",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -24,6 +26,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-share": "^4.4.1",
+    "styled-components": "^5.3.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

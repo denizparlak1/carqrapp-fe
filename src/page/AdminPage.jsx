@@ -71,7 +71,6 @@ const AdminPage = () => {
         <>
             <AppBar position="static">
                 <Toolbar>
-
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
                         Uslu Ajans
                         Yönetici Paneli

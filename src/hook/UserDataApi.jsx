@@ -176,8 +176,80 @@ const downloadReportApi = async (filename) => {
     return response;
 };
 
+const getCorpQrApi = async (corpName) => {
+    const response = await fetch(API_URLS['getCorpQrData'],{
+        method: 'POST',
+        body: JSON.stringify({
+            corp_name: corpName,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+
+    return response;
+};
+
+const addCorpUserApi = async (corporation_name,name,surname,phone,mail) => {
+    const response = await fetch(API_URLS['addCorpUser'],{
+        method: 'POST',
+        body: JSON.stringify({
+            corporation_name: corporation_name,
+            name: name,
+            surname: surname,
+            phone: phone,
+            mail: mail
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+
+    return response;
+};
+
+const getCorporateUserApi = async (corporateName) => {
+    const response = await fetch(API_URLS['getCorpUser']+`${corporateName}`);
+    return response;
+};
+
+const deleteCorporateUserApi = async (corporation_name,user_id) => {
+    const response = await fetch(API_URLS['deleteCorpUser'],{
+        method: 'DELETE',
+        body: JSON.stringify({
+            corporation_name: corporation_name,
+            user_id:user_id
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+
+    return response;
+};
+
+const updateUserNamePermissionApi = async (userId,permission) => {
+    const response = await fetch(API_URLS['updateUserNamePermission'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            permission:permission
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+
+
 export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserTelegramPermissionApi,
-    updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,
-    updateUserLoginPermissionApi,
-    updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,downloadReportApi,
-    updateUserPhonePermissionApi,updateUserPasswordApi,getAdminReportApi };
+    updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,deleteCorporateUserApi,
+    updateUserLoginPermissionApi,updateUserNamePermissionApi,
+    updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,downloadReportApi,getCorporateUserApi,
+    updateUserPhonePermissionApi,updateUserPasswordApi,getAdminReportApi,getCorpQrApi,addCorpUserApi };

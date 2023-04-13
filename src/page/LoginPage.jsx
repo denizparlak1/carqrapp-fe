@@ -45,6 +45,9 @@ const LoginPage = () => {
                 if (customClaims.role === "user"){
                     navigate("/customer", { state: { userId: user.uid } });
                 }
+                if (customClaims.role === "corporate"){
+                    navigate("/corp-admin", { state: { userId: user.uid,corporation_name: customClaims.corporation_name } });
+                }
             }
 
 
@@ -64,13 +67,6 @@ const LoginPage = () => {
             <Avatar src={logo} sx={{ width: 160, height: 70, marginBottom: 2, borderRadius: 0 }} />
             <h2> Qr Park Kullanıcı Girişi</h2>
             <div>
-                <AdSense.Google
-                    client="ca-pub-2856879062144826"
-                    slot="8151809760"
-                    style={{ display: "block", marginBottom: 20 }}
-                    format="auto"
-                    responsive="true"
-                />
                 <StyledForm onSubmit={handleSubmit} noValidate>
                     <TextField
                         variant="outlined"

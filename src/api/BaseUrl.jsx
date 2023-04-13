@@ -1,5 +1,5 @@
-const BASE_URL = "https://qrcarapp-akzshgayzq-uc.a.run.app"
-//const BASE_URL = "http://localhost:8000"
+//const BASE_URL = "https://qrcarapp-akzshgayzq-uc.a.run.app"
+const BASE_URL = "http://localhost:8000"
 export const API_URLS = {
     getUserData: BASE_URL +'/users/',
     updateUserEmail: BASE_URL+'/user/update/email/',
@@ -11,12 +11,20 @@ export const API_URLS = {
     updateTelegramPermission: BASE_URL+'/user/update/telegram/permission/',
     updateWhatsappPermission: BASE_URL+'/user/update/whatsapp/permission/',
     updatePhonePermission: BASE_URL+'/user/update/phone/permission/',
+    updateUserNamePermission: BASE_URL+'/user/update/name/permission/',
+
     updatePassword: BASE_URL+'/user/update/password/',
     updateLoginPermission: BASE_URL+'/user/update/login/permission/',
     generateBulkQr: BASE_URL +'/bulk_register/',
 
     getReports: BASE_URL +'/reports/',
-    downloadReport: BASE_URL +'/download/'
+    downloadReport: BASE_URL +'/download/',
+
+    //Corp route
+    getCorpQrData: BASE_URL+'/qrcode/',
+    addCorpUser: BASE_URL+'/create/corp/user/',
+    getCorpUser: BASE_URL+'/corp/user/',
+    deleteCorpUser: BASE_URL+'/corp/user/delete/'
 
 
 };
