@@ -9,6 +9,7 @@ import ResetPasswordPage from "./page/ResetPasswordPage";
 import ReportPage from "./page/ReportPage";
 import CorporationAdminPage from "./page/CorporationAdminPage";
 import {CorpQrCodesPage} from "./page/CorpQrCodesPage";
+import {SampleQrPage} from "./page/SampleQrPage";
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/customer" element={<ProtectedRoute component={CustomerPage} />} />
                 <Route path="/admin" element={<ProtectedRoute component={AdminPage} />} />
+                <Route path="/sample-qr" element={<ProtectedRoute component={SampleQrPage} />} />
 
 
                 <Route path="/corp-admin" element={<ProtectedRoute component={CorporationAdminPage} />} />

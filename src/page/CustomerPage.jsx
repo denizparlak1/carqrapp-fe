@@ -32,9 +32,16 @@ import ResetPasswordComponent from '../component/ResetPasswordComponent';
 import {
     getUserDataApi,
     updateUserEmailApi,
-    updateUserMessageApi, updateUserNamePermissionApi, updateUserPasswordApi,
-    updateUserPhoneApi, updateUserPhonePermissionApi,
-    updateUserPlateApi, updateUserTelegramLinkApi, updateUserTelegramPermissionApi, updateUserWhatsappPermissionApi
+    updateUserMessageApi,
+    updateUserNamePermissionApi,
+    updateUserPasswordApi,
+    updateUserPhoneApi,
+    updateUserPhonePermissionApi,
+    updateUserPlateApi,
+    updateUserSMSPermissionApi,
+    updateUserTelegramLinkApi,
+    updateUserTelegramPermissionApi,
+    updateUserWhatsappPermissionApi
 } from "../hook/UserDataApi";
 import { useLocation } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
@@ -59,6 +66,7 @@ const CustomerPage = () => {
     const [telegramPermission, setTelegramPermission] = useState(null);
     const [phonePermission, setPhonePermission] = useState(null);
     const [namePermission, setNamePermission] = useState(null);
+    const [smsPermission, setSmsPermission] = useState(null);
     const [telegramUsername, setTelegramUsername] = useState(null);
 
 
@@ -77,6 +85,7 @@ const CustomerPage = () => {
             setPhonePermission(result.phone_permission);
             setTelegramUsername(result.telegram);
             setNamePermission(result.name_permission)
+            setSmsPermission(result.sms_permission)
         };
         fetchData();
     }, [userId]);
@@ -205,6 +214,16 @@ const CustomerPage = () => {
                 console.error("Error updating Telegram permission");
             }
         }
+        else if (field === "sms_permission"){
+            setSmsPermission(!smsPermission);
+            const response = await updateUserSMSPermissionApi(userId, !smsPermission);
+            setSuccessMessage('SMS İzni Güncellendi');
+            setSnackbarOpen(true);
+            if (!response.ok) {
+                // Handle any errors that may occur
+                console.error("Error updating Telegram permission");
+            }
+        }
     };
 
     const downloadQRCode = async () => {
@@ -327,6 +346,7 @@ const CustomerPage = () => {
                         whatsappPermission={whatsappPermission}
                         telegramPermission={telegramPermission}
                         namePermission={namePermission}
+                        smsPermission={smsPermission}
                         handleTogglePermission={handleTogglePermission}
                     />
                     <TelegramUsername

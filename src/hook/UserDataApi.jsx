@@ -246,10 +246,26 @@ const updateUserNamePermissionApi = async (userId,permission) => {
     return response;
 };
 
+const updateUserSMSPermissionApi = async (userId,permission) => {
+    const response = await fetch(API_URLS['updateUserSMSPermission'],{
+        method: 'PUT',
+        body: JSON.stringify({
+            user_id: userId,
+            permission:permission
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+
 
 
 export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserTelegramPermissionApi,
     updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,deleteCorporateUserApi,
-    updateUserLoginPermissionApi,updateUserNamePermissionApi,
+    updateUserLoginPermissionApi,updateUserNamePermissionApi,updateUserSMSPermissionApi,
     updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,downloadReportApi,getCorporateUserApi,
     updateUserPhonePermissionApi,updateUserPasswordApi,getAdminReportApi,getCorpQrApi,addCorpUserApi };

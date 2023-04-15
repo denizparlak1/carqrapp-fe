@@ -96,7 +96,6 @@ const UserPage = () => {
                     </Typography>
                 )}
                 <CarPlateComponent plateNumber={userData.plate} sx={{margin: theme.spacing(10)}}/>
-
                 <UserMessageComponent message={userData.message} />
 
 
@@ -109,23 +108,24 @@ const UserPage = () => {
                     TELEFON İLE ARAMA YAP
                 </Button>
 
-                <Button variant="contained" color="primary" onClick={() => sendSMS(userData.phone)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#ceae3f', color: '#FFFFFF' }}>
-                    <Sms sx={{ marginRight: 1 }} />
-                    SMS İLE MESAJ GÖNDER
-                </Button>
-
+                {userData.sms_permission && (
+                    <Button variant="contained" color="primary" onClick={() => sendSMS(userData.phone)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#ceae3f', color: '#FFFFFF' }}>
+                        <Sms sx={{ marginRight: 1 }} />
+                        SMS İLE İLETİŞİME GEÇ
+                    </Button>
+                )}
 
                 {userData.phone && userData.whatsapp_permission && (
                     <Button variant="contained" color="primary" onClick={() => openWhatsApp(userData.phone)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#4CAF50', color: '#FFFFFF', '&:hover': { backgroundColor: '#388E3C' } }}>
                         <WhatsAppIcon sx={{ marginRight: 1 }} />
-                        WHATSAPP İLE İLETİŞİME GEÇ
+                        WHATSAPP İLE MESAJ GÖNDER
                     </Button>
                 )}
 
                 {userData.telegram && userData.telegram_permission && (
                     <Button variant="contained" color="primary" onClick={() => openTelegram(userData.telegram)} sx={{ width: 300, marginBottom: theme.spacing(1), backgroundColor: '#0088cc', color: '#ffffff', '&:hover': { backgroundColor: '#004465' } }}>
-                        <Telegram />
-                        TELEGRAM İLE MESAJ GÖNDER
+                        <Telegram sx={{ marginRight: 1 }}/>
+                        TELEGRAM İLE İLETİŞİME GEÇ
                     </Button>
                 )}
 
