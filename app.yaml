@@ -1,4 +1,6 @@
 runtime: nodejs18
+service: dev
+
 
 handlers:
   - url: /static

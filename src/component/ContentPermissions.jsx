@@ -6,10 +6,10 @@ import {
     FormControlLabel,
     Switch,
 } from "@mui/material";
-import {PhoneCallbackOutlined, WhatsApp, Telegram,ContactEmergency} from "@mui/icons-material";
+import {PhoneCallbackOutlined, WhatsApp, Telegram, ContactEmergency, Sms} from "@mui/icons-material";
 
 const ContactPermissions = (props) => {
-    const { phonePermission, whatsappPermission, telegramPermission,namePermission, handleTogglePermission } = props;
+    const { phonePermission, whatsappPermission, telegramPermission,namePermission,smsPermission, handleTogglePermission } = props;
     return (
         <>
             <Typography variant="h6" component="h3" align="left">
@@ -27,6 +27,20 @@ const ContactPermissions = (props) => {
                         />
                     }
                     label="Telefon ile arama izni"
+                />
+            </ListItem>
+            <ListItem>
+                <ListItemIcon>
+                    <Sms />
+                </ListItemIcon>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={smsPermission}
+                            onChange={() => handleTogglePermission("sms_permission")}
+                        />
+                    }
+                    label="SMS Gönderme İzni"
                 />
             </ListItem>
             <ListItem>

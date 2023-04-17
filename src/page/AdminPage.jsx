@@ -6,6 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {generatePdfApi} from "../hook/GeneratePdfApi";
 import Box from "@mui/material/Box";
 import AlertSnackbar from "../alert/Alert";
+import {handleLogout} from "../component/LogoutComponent";
 
 
 const StyledContainer = styled(Container)({
@@ -32,18 +33,6 @@ const AdminPage = () => {
     const [alertMessage, setAlertMessage] = useState('');
     const [alertSeverity, setAlertSeverity] = useState('');
     const [layerCount, setLayerCount] = useState('1');
-
-    const navigate = useNavigate();
-
-    const handleLogout = async () => {
-        try {
-            await signOut();
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
-    };
-
 
 
     const handleGeneratePdf = async () => {
@@ -75,8 +64,9 @@ const AdminPage = () => {
                         Uslu Ajans
                         Yönetici Paneli
                     </Typography>
-                    <Button color="inherit" onClick={handleLogout}>Çıkış</Button>
+                    <Button component={Link} to='/sample-qr' color="inherit">Örnek QR Oluştur</Button>
                     <Button component={Link} to='/reports' color="inherit">Raporlar</Button>
+                    <Button color="inherit" onClick={handleLogout}>Çıkış</Button>
                 </Toolbar>
             </AppBar>
             <StyledContainer>
@@ -123,11 +113,6 @@ const AdminPage = () => {
                 message={alertMessage}
                 severity={alertSeverity}
             />
-
-
-            {pdfUrl === null && isLoading === false && (
-                <Typography sx={{ marginTop: 2 }}>PDF dosyası henüz oluşturulmadı.</Typography>
-            )}
         </>
     );
 };
