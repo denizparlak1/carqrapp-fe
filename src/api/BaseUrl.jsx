@@ -25,7 +25,10 @@ export const API_URLS = {
     getCorpQrData: BASE_URL+'/qrcode/',
     addCorpUser: BASE_URL+'/create/corp/user/',
     getCorpUser: BASE_URL+'/corp/user/',
-    deleteCorpUser: BASE_URL+'/corp/user/delete/'
+    deleteCorpUser: BASE_URL+'/corp/user/delete/',
+
+    //admin
+    createSampleQr: BASE_URL+'/admin/qr/create/sample/'
 
 
 };

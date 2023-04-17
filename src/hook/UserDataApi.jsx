@@ -262,10 +262,27 @@ const updateUserSMSPermissionApi = async (userId,permission) => {
 };
 
 
+const createSampleQrApi = async (customer,count) => {
+    const response = await fetch(API_URLS['createSampleQr'],{
+        method: 'POST',
+        body: JSON.stringify({
+            customer: customer,
+            count:count,
+            role: 'user'
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    return response;
+};
+
+
 
 
 export { getUserDataApi,updateUserEmailApi,updateUserMessageApi,updateUserTelegramPermissionApi,
-    updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,deleteCorporateUserApi,
+    updateUserPlateApi,updateUserPhoneApi,updateUserProfileApi,deleteCorporateUserApi,createSampleQrApi,
     updateUserLoginPermissionApi,updateUserNamePermissionApi,updateUserSMSPermissionApi,
     updateUserTelegramLinkApi,updateUserWhatsappPermissionApi,downloadReportApi,getCorporateUserApi,
     updateUserPhonePermissionApi,updateUserPasswordApi,getAdminReportApi,getCorpQrApi,addCorpUserApi };
