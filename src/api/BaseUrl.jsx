@@ -1,5 +1,5 @@
 const BASE_URL = "https://qrcarapp-akzshgayzq-uc.a.run.app"
-//const BASE_URL = "http://localhost:8000"
+//const BASE_URL = "http://localhost:8001"
 export const API_URLS = {
     getUserData: BASE_URL +'/users/',
     updateUserEmail: BASE_URL+'/user/update/email/',
