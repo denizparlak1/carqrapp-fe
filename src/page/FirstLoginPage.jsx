@@ -6,12 +6,18 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import {updateUserEmailApi, updateUserLoginPermissionApi, updateUserPasswordApi} from "../hook/UserDataApi";
+import {
+    getUserDataApi,
+    updateUserEmailApi,
+    updateUserLoginPermissionApi,
+    updateUserPasswordApi
+} from "../hook/UserDataApi";
 import {useLocation, useNavigate} from "react-router-dom";
 
 const FirstLoginPage = () => {
     const location = useLocation();
     const { userId } = location.state || {};
+    const [userData, setUserData] = useState({});
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -33,13 +39,24 @@ const FirstLoginPage = () => {
     };
 
     useEffect(() => {
-        const visitedBefore = localStorage.getItem('visitedBefore');
-        if (visitedBefore) {
+        if (!userId) {
             navigate('/login');
-        } else {
-            localStorage.setItem('visitedBefore', true);
+            return;
         }
-    }, [navigate]);
+
+        const fetchUserData = async () => {
+            const response = await getUserDataApi(userId);
+            const data = await response.json();
+            setUserData(data);
+        };
+        fetchUserData();
+    }, [userId, navigate]);
+
+    useEffect(() => {
+        if (userData.first_login) {
+            navigate('/register', { state: { userId } });
+        }
+    }, [userData, navigate]);
     return (
         <Container maxWidth="xs">
             <Box
